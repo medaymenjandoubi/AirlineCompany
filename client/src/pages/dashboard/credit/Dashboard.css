@@ -1,0 +1,25 @@
+.dashboard {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.chart-container {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+h3 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+canvas {
+    width: 100%;
+    height: auto;
+}

@@ -1,0 +1,264 @@
+CREATE TABLE [dbo].[CREDIT_DET] (
+    [ECH_DET_CLE]        INT             NULL,
+    [ECH_ENT_CLE]        INT             NULL,
+    [ECH_DET_DATE_DU]    DATE            NULL,
+    [ECH_DET_DATE_AU]    DATE            NULL,
+    [ECH_DET_MT_Credit]  DECIMAL (18, 3) NULL,
+    [ECH_DET_MT_AMORTI]  DECIMAL (18, 3) NULL,
+    [ECH_DET_TAUX_INTR]  DECIMAL (18, 3) NULL,
+    [ECH_DET_MARGE]      DECIMAL (18, 3) NULL,
+    [ECH_DET_TOTAL_INTR] DECIMAL (18, 3) NULL,
+    [ECH_DET_TOTAL_REMB] DECIMAL (18, 3) NULL
+);
+
+
+GO
+
+CREATE TABLE [dbo].[SITE_MARCHAND] (
+    [SITE_AFFILIATION] VARCHAR (50) NULL,
+    [SITE_TYPE]        VARCHAR (50) NULL,
+    [SITE_AUTOR]       VARCHAR (50) NULL,
+    [SITE_DATE]        VARCHAR (50) NULL,
+    [SITE_TYPECARD]    VARCHAR (50) NULL,
+    [SITE_NUMLIGNE]    VARCHAR (50) NULL,
+    [SITE_NCARTP]      VARCHAR (50) NULL,
+    [SITE_MONTANT]     VARCHAR (50) NULL,
+    [SITE_MTDEVISE]    VARCHAR (50) NULL,
+    [SITE_COMM]        VARCHAR (50) NULL,
+    [SITE_TVA]         VARCHAR (50) NULL,
+    [SITE_ETAT]        VARCHAR (50) NULL,
+    [SITE_DEV]         VARCHAR (50) NULL,
+    [SITE_NUMDOC]      VARCHAR (50) NULL,
+    [SITE_IDENT]       VARCHAR (50) NULL,
+    [SITE_NUMDOCCOM]   VARCHAR (50) NULL,
+    [SITE_SIGNE]       VARCHAR (50) NULL,
+    [SITE_DMAJ]        VARCHAR (50) NULL
+);
+
+
+GO
+
+CREATE TABLE [dbo].[FACTURE_CLIENT] (
+    [EC_CODE]         VARCHAR (50) NULL,
+    [MO_CODE]         VARCHAR (50) NULL,
+    [FF_CODE]         VARCHAR (50) NULL,
+    [FC_CODE]         VARCHAR (50) NULL,
+    [JR_CODE]         VARCHAR (50) NULL,
+    [EC_LIGNE]        VARCHAR (50) NULL,
+    [EC_TYPE]         VARCHAR (50) NULL,
+    [EC_IMPGEN]       VARCHAR (50) NULL,
+    [EC_IMPTIERS]     VARCHAR (50) NULL,
+    [EC_MONIMPDEB]    VARCHAR (50) NULL,
+    [EC_MONIMPCRED]   VARCHAR (50) NULL,
+    [NAT_CODE]        VARCHAR (50) NULL,
+    [EC_POSITION]     VARCHAR (50) NULL,
+    [EC_TYPEDEB]      VARCHAR (50) NULL,
+    [EC_BASECALC_DEB] VARCHAR (50) NULL,
+    [EC_BASECALC_CRE] VARCHAR (50) NULL,
+    [EC_LIB_SCHEMA]   VARCHAR (50) NULL,
+    [N_DE_FACTURE]    VARCHAR (50) NULL,
+    [ANNEE_LIBELLE]   VARCHAR (50) NULL,
+    [CLIENT]          VARCHAR (50) NULL
+);
+
+
+GO
+
+CREATE TABLE [dbo].[CREDIT_ENT] (
+    [ECH_CLE]            VARCHAR (50) NULL,
+    [ECH_NUM]            VARCHAR (50) NULL,
+    [ECH_SOC]            VARCHAR (50) NULL,
+    [ECH_TITRE]          VARCHAR (50) NULL,
+    [ECH_Montant]        VARCHAR (50) NULL,
+    [ECH_PrincArr]       VARCHAR (50) NULL,
+    [ECH_Devise]         VARCHAR (50) NULL,
+    [ECH_Banque]         VARCHAR (50) NULL,
+    [ECH_TYPE]           VARCHAR (50) NULL,
+    [ECH_DATEDEBLOG]     VARCHAR (50) NULL,
+    [ECH_DatePrem]       VARCHAR (50) NULL,
+    [ECH_intretTrim]     VARCHAR (50) NULL,
+    [ECH_MARGEBANC_VARI] VARCHAR (50) NULL,
+    [ECH_TAUX_INTERET]   VARCHAR (50) NULL,
+    [ECH_MARGE_BANC]     VARCHAR (50) NULL,
+    [ECH_DUREE_FINANC]   VARCHAR (50) NULL,
+    [ECH_BASE_CALCUL]    VARCHAR (50) NULL,
+    [ECH_MONAIS_FIN]     VARCHAR (50) NULL,
+    [ECH_MONAIS_REMB]    VARCHAR (50) NULL,
+    [ECH_DureeUnite]     VARCHAR (50) NULL,
+    [ECH_TYP_CLE]        VARCHAR (50) NULL
+);
+
+
+GO
+
+CREATE TABLE [dbo].[CREDIT_TYP] (
+    [ECH_TYP_CLE] CHAR (8)     NULL,
+    [ECH_SOC]     CHAR (4)     NULL,
+    [ECH_COD]     CHAR (4)     NULL,
+    [ECH_LIB]     VARCHAR (50) NULL
+);
+
+
+GO
+
+CREATE LOGIN [tunisair_express]
+    WITH PASSWORD = N'Hz7cwoHgiltmxidyhxqnpcRvmsFT7_&#$!~<{gXb`kesMmjr';
+
+
+GO
+
+CREATE USER [tunisair_express] FOR LOGIN [tunisair_express];
+
+
+GO
+
+ALTER ROLE [db_backupoperator] ADD MEMBER [tunisair_express];
+
+
+GO
+
+ALTER ROLE [db_datawriter] ADD MEMBER [tunisair_express];
+
+
+GO
+
+ALTER ROLE [db_accessadmin] ADD MEMBER [tunisair_express];
+
+
+GO
+
+ALTER ROLE [db_ddladmin] ADD MEMBER [tunisair_express];
+
+
+GO
+
+ALTER ROLE [db_denydatawriter] ADD MEMBER [tunisair_express];
+
+
+GO
+
+ALTER ROLE [db_datareader] ADD MEMBER [tunisair_express];
+
+
+GO
+
+ALTER ROLE [db_denydatareader] ADD MEMBER [tunisair_express];
+
+
+GO
+
+ALTER ROLE [db_securityadmin] ADD MEMBER [tunisair_express];
+
+
+GO
+
+ALTER ROLE [db_owner] ADD MEMBER [tunisair_express];
+
+
+GO
+
+GRANT ALTER ANY EXTERNAL STREAM TO PUBLIC;
+
+
+GO
+
+GRANT DROP ANY DATABASE EVENT SESSION TO [tunisair_express];
+
+
+GO
+
+GRANT ALTER ANY USER TO PUBLIC;
+
+
+GO
+
+GRANT ALTER ANY ASYMMETRIC KEY TO PUBLIC;
+
+
+GO
+
+GRANT CONNECT REPLICATION TO PUBLIC;
+
+
+GO
+
+GRANT ALTER ANY SERVICE TO PUBLIC;
+
+
+GO
+
+GRANT AUTHENTICATE TO PUBLIC;
+
+
+GO
+
+GRANT VIEW ANY COLUMN ENCRYPTION KEY DEFINITION TO PUBLIC;
+
+
+GO
+
+GRANT ALTER ANY EXTERNAL JOB TO PUBLIC;
+
+
+GO
+
+GRANT CONTROL TO PUBLIC;
+
+
+GO
+
+GRANT ENABLE LEDGER TO [tunisair_express];
+
+
+GO
+
+GRANT VIEW ANY COLUMN MASTER KEY DEFINITION TO PUBLIC;
+
+
+GO
+
+GRANT ALTER ANY SYMMETRIC KEY TO PUBLIC;
+
+
+GO
+
+GRANT ALTER ANY DATABASE AUDIT TO PUBLIC;
+
+
+GO
+
+GRANT ALTER ANY ROLE TO PUBLIC;
+
+
+GO
+
+GRANT ALTER ANY SCHEMA TO PUBLIC;
+
+
+GO
+
+GRANT ALTER ANY APPLICATION ROLE TO PUBLIC;
+
+
+GO
+
+GRANT CONNECT TO PUBLIC;
+
+
+GO
+
+GRANT CONNECT TO [tunisair_express];
+
+
+GO
+
+GRANT ALTER ANY DATABASE EVENT NOTIFICATION TO PUBLIC;
+
+
+GO
+
+GRANT ALTER ANY MESSAGE TYPE TO PUBLIC;
+
+
+GO
+

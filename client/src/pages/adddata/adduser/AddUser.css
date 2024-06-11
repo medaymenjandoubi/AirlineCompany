@@ -1,0 +1,62 @@
+.logo-container {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.logo {
+    margin-left: 270px;
+    max-width: 150px; /* Ajustez la taille du logo selon vos besoins */
+}
+
+.container {
+    margin-bottom: 500px;
+    margin: 109px;
+    margin-left: 500px;
+    padding: 40px;
+    max-width: 500px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.input {
+    margin-bottom: 20px;
+    padding: 15px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.button {
+    background-color: red;
+    color: white;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
+
+.message {
+    margin-top: 20px;
+}
+
+.success-message {
+    color: #28a745;
+}
+
+.error-message {
+    color: #dc3545;
+}
