@@ -3,22 +3,122 @@ import SideBar from '../../../components/SideBar.js';
 import "./CSiteMarchand.css";
 import axios from 'axios';
 import { DropdownButton, Dropdown } from 'react-bootstrap';
-
+ import { Doughnut,Bar } from 'react-chartjs-2';
 const SiteMarchand = () => {
     const [siteMarchandData, setSiteMarchandData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(15); // Nombre de lignes par page
     const [filters, setFilters] = useState({ year: '', client: '' });
-
+    const [totalCount,setTotalCount]=useState(0)
+    const [visaCount,setVisaCount]=useState(0)
+    const [mcadCount,setMcadCount]=useState(0)
+    const [otherCount,setOtherCount]=useState(0)
+    const [chartData, setChartData] = useState(null);
+    const [yearsCount,setYearsCount] = useState(null)
+    const [yearsCountValues,setYearsCountValues] = useState(null)
+    const [yearsCountKeys,setYearsCountKeys] = useState(null)
+    const [databar,setDataBar]=useState(null)
+    const [options,setOptions]=useState(null)
+    const countYears = (data) => {
+        const years = data
+        .map(item => item.SITE_DATE.substring(0, 4))
+        .filter(year => parseInt(year) >= 2010 && parseInt(year) <= 2020);
+        const yearCounts = {};
+        years.forEach(year => {
+            if (yearCounts[year]) {
+                yearCounts[year]++;
+            } else {
+                yearCounts[year] = 1;
+            }
+        });
+        return yearCounts;
+    }
     const getSiteMarchandData = async () => {
         try {
             const { data } = await axios.get("http://localhost:8000/api/get-data/site-marchand", { withCredentials: true });
             setSiteMarchandData(data);
+            console.log(data)
+            const visaCount = data.filter(item => item.SITE_TYPECARD === "VISA").length;
+            const mcadCount = data.filter(item => item.SITE_TYPECARD === "MCAD").length;
+            const totalCount = data.filter(item => item.SITE_TYPECARD === "MCAD" || item.SITE_TYPECARD === "VISA").length;
+            setTotalCount(totalCount)
+            const otherCount = data.filter(item => item.SITE_TYPECARD !== "VISA" && item.SITE_TYPECARD !== "MCAD").length;
+            // Calculate the percentage of items with SITE_TYPECARD equal to "VISA"
+            const visaPercentage = (visaCount / totalCount) * 100;
+            setVisaCount(visaPercentage)
+            // Calculate the percentage of items with SITE_TYPECARD equal to "MCAD"
+            const mcadPercentage = (mcadCount / totalCount) * 100;
+            setMcadCount(mcadPercentage)
+            // Calculate the percentage of items with SITE_TYPECARD different from "VISA" and "MCAD"
+            const otherPercentage = (otherCount / totalCount) * 100;
+            setOtherCount(otherPercentage)
+            const yearCounts = countYears(data)
+            setYearsCount(yearCounts)
+            setYearsCountValues(Object.values(yearCounts))
+            console.log(Object.values(yearCounts))
+            console.log(Object.keys(yearCounts))
+            setYearsCountKeys(Object.keys(yearCounts))
+
         } catch (error) {
             console.log(error);
         }
     }
+    useEffect(() => {
+        // Create chart data object
+        const data = {
+            labels: ['VISA', 'MCAD'],
+            datasets: [
+                {
+                    label: 'Payment Methods',
+                    data: [visaCount, mcadCount],
+                    backgroundColor: [
+                        'red', // Red for VISA
+                        'rgba(54, 162, 235, 0.6)', // Blue for MCAD
+                        'rgba(255, 206, 86, 0.6)' // Yellow for Other
+                    ],
+                    borderWidth: 1,
+                },
+            ],
+        };
+        // Set chart data state
+        setChartData(data);
+    }, [visaCount, mcadCount, otherCount]);
+    useEffect(()=>{
 
+        const databar = {
+            labels: yearsCountKeys,
+            datasets: [
+                {
+                    label: 'Number of Items',
+                    data: yearsCountValues,
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)', // Blue color for bars
+                    borderColor: 'rgba(54, 162, 235, 1)', // Border color
+                    borderWidth: 1,
+                },
+            ],
+        };
+        setDataBar(databar)
+        const options = {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Number of Items',
+                    },
+                }],
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Year',
+                    },
+                }],
+            },
+        };
+        setOptions(options)
+    },[yearsCount])
     useEffect(() => {
         getSiteMarchandData();
     }, []);
@@ -156,6 +256,14 @@ const SiteMarchand = () => {
                     ))}
                     <button onClick={showNextPages} disabled={currentPage >= totalPages} className="arrow">&#8250;</button>
                 </div>
+            <div style={{width:"100%",display:"flex",marginTop:"50px"}}>    
+                <div className="doughnut-chart-container" style={{height:"400px",width:"50%"}}>
+                    <h2>Payment Methods Distribution</h2>
+                    {chartData && <Doughnut data={chartData} />}
+                </div>
+                <div style={{width:"50%"}}>
+                    <h2>Number of Transactions per year</h2>
+                    {yearsCount && <Bar data={databar}  style={{height:"400px"}}/>}</div></div>
             </div>
         </div>
     );
